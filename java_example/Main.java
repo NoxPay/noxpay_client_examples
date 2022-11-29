@@ -7,7 +7,7 @@ import java.util.Scanner;
 class Main {
 
 	public static void main(String[] args) throws IOException {
-		URL url = new URL("https://testnetapigateway.herokuapp.com");
+		URL url = new URL("https://testnetapigateway.herokuapp.com/test-auth");
 		HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
 		httpConn.setRequestMethod("GET");
 
