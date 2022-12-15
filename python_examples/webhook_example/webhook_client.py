@@ -27,15 +27,14 @@ webhook_url = 'http://127.0.0.1:8080/webhook_endpoint'
 # The first step is to load the signature_key as an environment variable.
 
 # Opening JSON file that contains signature key
-f = open('webhook_example/config.json')
-
+f = open('/Users/igor/repos/NOX/noxpay_client_examples/python_examples/webhook_example/config.json')
 # returns JSON object as a dictionary
 data = json.load(f)
 signature_key = data['SIGNATURE_KEY']
 
 
 # Loading Data
-with open('webhook_example/webhook_example.json') as f:
+with open('/Users/igor/repos/NOX/noxpay_client_examples/python_examples/webhook_example/webhook_example.json') as f:
     data = f.read().replace('\n', '').replace('\r', '').encode()
 
 # Creating Hash
