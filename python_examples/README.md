@@ -901,7 +901,7 @@ if __name__ == "__main__":
 
 ```
 
-Example of the output in server side:
+Example of the output in server side if key is correct:
 
 ```terminal
 ❯ python webhook_example/webhook_server.py
@@ -923,4 +923,10 @@ payer_bank_name: Banco do Brasil
 payer_bank_code: 001
 payer_bank_ispb: 00000000
 
+```
+
+Example of the output in server side if key is incorrect:
+```
+2022-12-27 19:18:04,816 - root - INFO --- Webhook received
+2022-12-27 19:18:04,816 - root - ERROR --- Invalid signature
 ```
