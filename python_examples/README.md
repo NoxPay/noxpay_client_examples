@@ -1,5 +1,22 @@
 # Python Codes
 
+## Summary
+
+* [Introduction](#introduction)
+* [Getting an APIKEY and a merchant registration](#getting-an-apikey-and-a-merchant-registration)
+* [Setting the URL](#setting-the-url)
+* [Checking APIKEY](#checking-apikey)
+* [Getting account data](#getting-account-data)
+* [Customer section](#customer-section)
+    * [Creating a new customer](#creating-a-new-customer)
+    * [Getting customer data](#getting-customer-data)
+* [Payments](#payments)
+    * [Creating a new Payment - Cash In](#creating-a-new-payment---cash-in)
+    * [Get Payment’s info](#get-payments-info)
+    * [Creating a new Payment - Cash Out](#creating-a-new-payment---cash-out)
+* [Webhooks](#webhooks)
+    * [Webhook Example](#webhook-example)
+
 # Introduction
 The aim of this document is show how a developer can use the Nox gateway api in testnet. To use this system you must generate an API key and have an merchant registration. To access the main NoxPay API contact our team. This document is targeted towards Nox QA group.
 
