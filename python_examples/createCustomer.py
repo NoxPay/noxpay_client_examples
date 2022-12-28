@@ -9,7 +9,7 @@ import requests
 import uuid
 
 # Opening JSON file
-f = open('python_examples/config.json')
+f = open('config.json')
 
 # returns JSON object as a dictionary
 data = json.load(f)
