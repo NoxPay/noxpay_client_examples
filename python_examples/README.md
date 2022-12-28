@@ -752,11 +752,16 @@ The Webhook folder is based on this code:
         http://localhost:8080/webhook_endpoint
 ```
 
-Esse código envia dados via post request para a API da Nox. No cabeçalho é enviada a chave codificada, que será comparada com a chave da NOX. Na pasta [webhook_example](webhook_example) temos dois códigos, um do lado do servidor e outro do cliente, além de arquivos de configuração de variáveis de ambiente e dados, para simular a operação completa.
+This code sends data via post request to the Nox API. The encrypted key is sent in the header, which will be compared with the NOX key. In the [webhook_example](webhook_example) we have two codes, one for the server and one for the client, as well as configuration files for environment variables and data, to simulate the complete operation.
 
-## Lado do Cliente
-Existem várias formas de armazenar sua chave de forma segura. Aqui está sendo usado um arquivo json que guarda essa informação. Um hash é criado com a função simpleSign combinando a chave com os dados que serão enviados. 
-Clique para acessar o código: [webhook_client.py](webhook_example/webhook_client.py).
+<!-- Esse código envia dados via post request para a API da Nox. No cabeçalho é enviada a chave codificada, que será comparada com a chave da NOX. Na pasta [webhook_example](webhook_example) temos dois códigos, um do lado do servidor e outro do cliente, além de arquivos de configuração de variáveis de ambiente e dados, para simular a operação completa. -->
+
+## Client Side
+There are several ways to store your key securely. Here a JSON file is being used to store this information. A hash is created with the simpleSign function by combining the key with the data that will be sent.
+Click to access the code: [webhook_client.py](webhook_example/webhook_client.py).
+
+<!-- Existem várias formas de armazenar sua chave de forma segura. Aqui está sendo usado um arquivo json que guarda essa informação. Um hash é criado com a função simpleSign combinando a chave com os dados que serão enviados. 
+Clique para acessar o código: [webhook_client.py](webhook_example/webhook_client.py). -->
 
 ```python
 # IMPORTS
@@ -812,10 +817,14 @@ Example of the output:
 - Wrong Request: <Response [403]>
 
 
-## Lado do Servidor
-Aqui o endereço que receberá o webhook é feito com Flask e a chave foi armazenada dentro de um arquivo.env, que será carregado com o método load_dotenv da biblioteca dotenv. Quando o webhook é recebido, um hash é criado com os dados que são combinados com a chave armazenada no servidor. Esse hash é comparado com o enviado pelo cliente.
+## Server Side
+Here, the address that will receive the webhook is made with Flask and the key was stored inside a .env file, which will be loaded with the load_dotenv method of the dotenv library. When the webhook is received, a hash is created with the data which is combined with the key stored on the server. This hash is compared with the one sent by the client.
 
-Clique para acessar o código: [webhook_server.py](webhook_example/webhook_server.py)
+Click to access the code: [webhook_server.py](webhook_example/webhook_server.py)
+
+<!-- Aqui o endereço que receberá o webhook é feito com Flask e a chave foi armazenada dentro de um arquivo.env, que será carregado com o método load_dotenv da biblioteca dotenv. Quando o webhook é recebido, um hash é criado com os dados que são combinados com a chave armazenada no servidor. Esse hash é comparado com o enviado pelo cliente.
+
+Clique para acessar o código: [webhook_server.py](webhook_example/webhook_server.py) -->
 
 ```python
 import log
