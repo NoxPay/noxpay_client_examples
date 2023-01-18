@@ -1,12 +1,14 @@
-// const fetch = require('node-fetch');
-
 const { createHmac } = await import('node:crypto');
+import * as dotenv from 'dotenv'
+dotenv.config()
 
-const signatureKey = '1234567';
-function simpleSign (text, key) {
+const signatureKey = process.env.API_KEY_CLIENT
+console.log(signatureKey)
+
+function simpleSign(text, key) {
     const hash = createHmac('sha256', key)
-               .update(text)
-               .digest('hex');
+        .update(text)
+        .digest('hex');
     // console.log(hash);
     return hash;
 }
@@ -16,7 +18,7 @@ console.log(file);
 console.log(JSON.stringify(file))
 
 const hash = simpleSign(JSON.stringify(file), signatureKey)
-console.log(hash)
+// console.log(hash)
 
 async function send_data(file, signature) {
     const url = 'http://localhost:8080/webhook_endpoint'
@@ -29,17 +31,9 @@ async function send_data(file, signature) {
         body: JSON.stringify(file)
     }
     const response = await fetch(url, options)
-    // .then(response => {
-    //     console.log(response)
-    // })
     const data = await response.json();
     console.log(data)
 }
-
-// fetch('./webhook_example.json')
-//     .then((response) => response.json())
-//     .then((json) => console.log(json));
-
 
 send_data(file, hash);
 

@@ -1,6 +1,8 @@
-// const express = require('express')
-// const app = express();
-// app.listen(8080, () => console.log('listening at 8080'));
+// Código que simula o servidor
+
+import * as dotenv from 'dotenv'
+dotenv.config()
+// console.log(process.env);
 
 import express from 'express';
 const app = express();
@@ -9,7 +11,6 @@ app.use(express.json({ limit: '1mb' }))
 
 const { createHmac } = await import('node:crypto');
 
-const signatureKey = '1234567';
 function simpleSign(text, key) {
     const hash = createHmac('sha256', key)
         .update(text)
@@ -18,15 +19,9 @@ function simpleSign(text, key) {
     return hash;
 }
 
-const server_signature = '12345678'
-
+const server_signature = process.env.API_KEY_SERVER
 
 app.post('/webhook_endpoint', (request, response) => {
-    // const data = request.body;
-    // const timestamp = Date.now();
-    // data.timestamp = timestamp;
-    // database.insert(data);
-    // response.json(data);
     console.log('I got a request!' + Date.now());
     const data = request.body
 
@@ -46,7 +41,5 @@ app.post('/webhook_endpoint', (request, response) => {
     } else {
         console.log('WRONG API KEY')
     }
-
-    // response.end();
 });
 

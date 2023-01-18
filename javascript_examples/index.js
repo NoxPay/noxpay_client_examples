@@ -1,47 +1,45 @@
-const express = require('express')
-const app = express();
-app.listen(3000, () => console.log('listening at 3000'));
+// ====== IMPORTS ====== //   
 
-// const _importDynamic = new Function('modulePath', 'return import(modulePath)');
+import { v4 as uuidv4 } from 'uuid';
+import * as dotenv from 'dotenv'
+dotenv.config()
 
-// export const fetch = async function (...args: any) {
-//     const {default: fetch} = await _importDynamic('node-fetch');
-//     return fetch(...args);
-// }
+// ====== VARIABLES ====== //   
 
-// import fetch from 'node-fetch';
-const fetch = require('node-fetch');
+const signatureKey = process.env.API_KEY_CLIENT
+// console.log(signatureKey)
 
-// Teste com API do Github
+const custid = uuidv4();
 
-// async function getData() {
-//     const response = await fetch('https://api.github.com/users/github');
-//     const data = await response.json();
+const custdata = {
+    "name": `Usuario-${custid}`,
+    "document": `${custid}`,
+    "document_type": "CPF"
+}
 
-//     console.log(data);
-// }
+// ====== FUNCTIONS ====== //   
 
-// getData();
+function sleep(ms) {
+    console.log(`Waiting ${ms}ms`)
+    return new Promise(
+        resolve => setTimeout(resolve, ms)
+    );
+}
+
+const keypress = async () => {
+    process.stdin.setRawMode(true)
+    return new Promise(resolve => process.stdin.once('data', () => {
+        process.stdin.setRawMode(false)
+        resolve()
+    }))
+}
 
 // Checking APIKEY //
-// async function noxPay() {
-//     const response = await fetch('https://testnetapigateway.herokuapp.com/test-auth', {
-//         headers: {
-//             'api-key': '12345678'
-//         }
-//     });
-//     const data = await response.json();
 
-//     console.log(data);
-// }
-
-// noxPay();
-
-// Getting account data //
-async function checkAccount() {
-    const response = await fetch('https://testnetapigateway.herokuapp.com/api/account', {
+async function checkAPIKEY() {
+    const response = await fetch('https://testnetapigateway.herokuapp.com/test-auth', {
         headers: {
-            'api-key': '12345678'
+            'api-key': signatureKey
         }
     });
     const data = await response.json();
@@ -49,135 +47,131 @@ async function checkAccount() {
     console.log(data);
 }
 
-// checkAccount();
 
-// Creating a new customer
+async function createCustomer() {
+    console.log('Creating Customer Data')
 
-// import { v4 as uuidv4 } from 'uuid';
-// const uuid = require('uuid.v4')
-// const uuid_gen = uuid();
-// console.log(crypto.randomUUID());
+    const options = {
+        method: 'POST',
+        headers: {
+            'api-key': signatureKey,
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify(custdata)
+    };
+    const response = await fetch('https://testnetapigateway.herokuapp.com/api/customer', options
+    );
 
-custid = '0081f93d-2b30-4fe0-a80b-1145e1236c9d'
-custdata = {
-    "name": `Usuario-${custid}`,
-    "document": `${custid}`,
-    "document_type": "CPF"
+    const data = await response.json();
+    console.log(data);
+
 }
-// console.log(custdata)
-// async function noxPay() {
-//     const response = await fetch('https://testnetapigateway.herokuapp.com/api/customer', {
-//         method: 'POST',
-//         headers: {
-//             'api-key': '12345678',
-//             'content-type': 'application/json'
-//         },
-//         body: JSON.stringify(custdata)
-//     });
-
-//      const data = await response.json();
-//      console.log(data)
-
-// }
-
-// noxPay()
 
 // Getting customer data
-// async function noxPay() {
-//     const response = await fetch(`https://testnetapigateway.herokuapp.com/api/customer/${custid}`, {
-//         method: 'GET',
-//         headers: {
-//             'api-key': '12345678',
-//             'content-type': 'application/json'
-//         }
-//     });
 
-//     const data = await response.json();
-//     console.log(data)
+async function getCustomer() {
+    // sleep(5000)
 
-// }
+    console.log('Getting Customer Data')
 
-// noxPay()
+    const response = await fetch(`https://testnetapigateway.herokuapp.com/api/customer/${custid}`, {
+        method: 'GET',
+        headers: {
+            'api-key': signatureKey,
+            'content-type': 'application/json'
+        }
+    });
+
+    const data = await response.json();
+    console.log(data)
+
+}
+
 
 // Creating new Payment
-// payment =
-// {
-//     "method": "PIX",
-//     "code": "123333",
-//     "customer_doc": `${custid}`,
-//     "items": [
-//         {
-//             "description": "BTC",
-//             "amount": 150000.0,
-//             "quantity": 1.02,
-//             "code": "cBTC"
-//         },
-//         {
-//             "description": "ADA",
-//             "amount": 100.0,
-//             "quantity": 10000.02,
-//             "code": "cADA"
-//         }
-//     ]
-// }
 
-// async function noxPay() {
-//     const response = await fetch('https://testnetapigateway.herokuapp.com/api/payment', {
-//         method: 'POST',
-//         headers: {
-//             'api-key': '12345678',
-//             'content-type': 'application/json'
-//         },
-//         body: JSON.stringify(payment)
-//     });
+const payment =
+{
+    "method": "PIX",
+    "code": "123333",
+    "customer_doc": `${custid}`,
+    "items": [
+        {
+            "description": "BTC",
+            "amount": 150000.0,
+            "quantity": 1.02,
+            "code": "cBTC"
+        },
+        {
+            "description": "ADA",
+            "amount": 100.0,
+            "quantity": 10000.02,
+            "code": "cADA"
+        }
+    ]
+}
 
-//      const data = await response.json();
-//      console.log(data)
+async function createPayment() {
+    console.log('Creating Payment')
 
-// }
+    const response = await fetch('https://testnetapigateway.herokuapp.com/api/payment', {
+        method: 'POST',
+        headers: {
+            'api-key': signatureKey,
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify(payment)
+    });
 
-// noxPay()
+    const data = await response.json();
+    console.log(data);
+
+    const txid = data.txid;
+    console.log(`TXID: ${txid}`);
+
+    return txid;
+}
+
 
 // Get Payment Info
-// txid = '4382c207ef22435bb7348fe7d'
-// async function noxPay() {
-//     const response = await fetch(`https://testnetapigateway.herokuapp.com/api/payment/${txid}`, {
-//         method: 'GET',
-//         headers: {
-//             'api-key': '12345678',
-//             'content-type': 'application/json'
-//         },
 
-//     });
+async function getPaymentInfo(txid) {
+    console.log('Get Payment Info')
+    console.log(`https://testnetapigateway.herokuapp.com/api/payment/${txid}`)
 
-//     const data = await response.json();
-//     console.log(data)
+    const response = await fetch(`https://testnetapigateway.herokuapp.com/api/payment/${txid}`, {
+        method: 'GET',
+        headers: {
+            'api-key': signatureKey,
+            'content-type': 'application/json'
+        },
 
-// }
+    });
 
-// noxPay()
+    const data = await response.json();
+    console.log(data)
 
-// // Cash In
-// async function cashIn() {
-//     const response = await fetch(`https://testnetapigateway.herokuapp.com/api/payment/pay/${txid}`, {
-//         method: 'POST',
-//         headers: {
-//             'api-key': '12345678'
-//             // 'content-type': 'application/json'
-//         }
-//         // body: JSON.stringify(payment)
-        
-//     });
+}
 
-//     // const data = await response.json();
-//     console.log(response.status)
+// Cash In
+async function cashIn(txid) {
+    try {
+        const response = await fetch(`https://testnetapigateway.herokuapp.com/api/payment/pay/${txid}`, {
+            method: 'POST',
+            headers: {
+                'api-key': signatureKey
+            }
+        });
 
-// }
-
-// cashIn()
+        // const data = await response.json();
+        console.log(response.json())
+    } catch (err) {
+        console.log(`DEU RUIM AQUI: ${err}`)
+    }
+}
 
 // CashOut
-paymentOut = {
+const paymentOut = {
     'method': 'PIXOUT',
     'code': '123',
     'customer_doc': `${custid}`,
@@ -195,38 +189,28 @@ async function createPaymentOut() {
     const response = await fetch('https://testnetapigateway.herokuapp.com/api/payment', {
         method: 'POST',
         headers: {
-            'api-key': '12345678',
+            'api-key': signatureKey,
             'content-type': 'application/json'
         },
         body: JSON.stringify(paymentOut)
     });
 
-    //  const data = await response.json();
-     console.log(response.status)
+    const data = await response.json();
+    console.log(data);
+
+    const txoutid = data.txid;
+    console.log(`TXOUTID: ${txoutid}`);
+
+    return txoutid;
 
 }
+// ====== MAIN ====== //   
 
-createPaymentOut()
+// await createCustomer()
+// await getCustomer()
+// const txid = await createPayment()
+// await getPaymentInfo(txid)
+// await cashIn()
 
-// Pay Out
-const txoutid = 0
-async function cashOut() {
-    const response = await fetch(`https://testnetapigateway.herokuapp.com/api/payment/pay/${txoutid}`, {
-        method: 'POST',
-        headers: {
-            'api-key': '12345678',
-            'content-type': 'application/json'
-        }
-        // body: JSON.stringify(payment)
-        
-    });
-
-    // const data = await response.json();
-    console.log(response.status)
-
-}
-
-cashOut()
-
-checkAccount()
+const txoutid = await createPaymentOut()
 
