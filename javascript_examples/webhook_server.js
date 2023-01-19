@@ -22,7 +22,11 @@ function simpleSign(text, key) {
 const server_signature = process.env.API_KEY_SERVER
 
 app.post('/webhook_endpoint', (request, response) => {
-    console.log('I got a request!' + Date.now());
+    const now = new Date();
+    // convert date to a string in UTC timezone format:
+    // console.log(now.toUTCString());
+    
+    console.log('I got a request! - ' + now);
     const data = request.body
 
     const server_hash = simpleSign(JSON.stringify(data), server_signature)
@@ -30,8 +34,10 @@ app.post('/webhook_endpoint', (request, response) => {
     const client_hash = request.headers['x-signature']
 
     if (server_hash === client_hash) {
+        console.log('API KEY CORRECT')
+        console.log('Data received!')
         console.log(data);
-        console.log(request.headers['x-signature'])
+        // console.log(request.headers['x-signature'])
 
 
         response.json({
@@ -40,6 +46,9 @@ app.post('/webhook_endpoint', (request, response) => {
         });
     } else {
         console.log('WRONG API KEY')
+        response.json({
+        status: 'fail'
+        });
     }
 });
 
