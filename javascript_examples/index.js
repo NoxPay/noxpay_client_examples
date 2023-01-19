@@ -32,6 +32,19 @@ async function checkAPIKEY() {
     console.log(data);
 }
 
+// Getting account data //
+
+async function getAccount() {
+    const response = await fetch('https://testnetapigateway.herokuapp.com/api/account', {
+        headers: {
+            'api-key': signatureKey
+        }
+    });
+    const data = await response.json();
+
+    console.log(data);
+}
+
 // Creating customer
 
 async function createCustomer() {
@@ -220,6 +233,9 @@ async function createPaymentOut() {
 // ====== MAIN ====== //   
 
 // Uncomment the functions that You want to run
+await checkAPIKEY()
+
+await getAccount()
 
 // await createCustomer()
 // await getCustomer()
