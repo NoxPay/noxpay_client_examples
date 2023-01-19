@@ -19,21 +19,6 @@ const custdata = {
 
 // ====== FUNCTIONS ====== //   
 
-function sleep(ms) {
-    console.log(`Waiting ${ms}ms`)
-    return new Promise(
-        resolve => setTimeout(resolve, ms)
-    );
-}
-
-const keypress = async () => {
-    process.stdin.setRawMode(true)
-    return new Promise(resolve => process.stdin.once('data', () => {
-        process.stdin.setRawMode(false)
-        resolve()
-    }))
-}
-
 // Checking APIKEY //
 
 async function checkAPIKEY() {
@@ -47,6 +32,7 @@ async function checkAPIKEY() {
     console.log(data);
 }
 
+// Creating customer
 
 async function createCustomer() {
     console.log('Creating Customer Data')
@@ -70,7 +56,7 @@ async function createCustomer() {
 // Getting customer data
 
 async function getCustomer() {
-    // sleep(5000)
+
 
     console.log('Getting Customer Data')
 
@@ -87,31 +73,56 @@ async function getCustomer() {
 
 }
 
+// Updating customer data
+
+async function updateCustomer() {
+    console.log('Updating Customer Name')
+
+    const newdata = {
+        "name": "Tyler"
+    }
+
+    const options = {
+        method: 'PUT',
+        headers: {
+            'api-key': signatureKey,
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify(newdata)
+    };
+    const response = await fetch(`https://testnetapigateway.herokuapp.com/api/customer/${custid}`, options
+    );
+
+    console.log(response)
+    const data = await response.json();
+    console.log(data);
+
+}
 
 // Creating new Payment
 
-const payment =
-{
-    "method": "PIX",
-    "code": "123333",
-    "customer_doc": `${custid}`,
-    "items": [
-        {
-            "description": "BTC",
-            "amount": 150000.0,
-            "quantity": 1.02,
-            "code": "cBTC"
-        },
-        {
-            "description": "ADA",
-            "amount": 100.0,
-            "quantity": 10000.02,
-            "code": "cADA"
-        }
-    ]
-}
+async function createPaymentIn() {
+    const payment =
+    {
+        "method": "PIX",
+        "code": "123333",
+        "customer_doc": `${custid}`,
+        "items": [
+            {
+                "description": "BTC",
+                "amount": 150000.0,
+                "quantity": 1.02,
+                "code": "cBTC"
+            },
+            {
+                "description": "ADA",
+                "amount": 100.0,
+                "quantity": 10000.02,
+                "code": "cADA"
+            }
+        ]
+    }
 
-async function createPayment() {
     console.log('Creating Payment')
 
     const response = await fetch('https://testnetapigateway.herokuapp.com/api/payment', {
@@ -154,6 +165,7 @@ async function getPaymentInfo(txid) {
 }
 
 // Cash In
+
 async function cashIn(txid) {
     try {
         const response = await fetch(`https://testnetapigateway.herokuapp.com/api/payment/pay/${txid}`, {
@@ -166,26 +178,27 @@ async function cashIn(txid) {
         // const data = await response.json();
         console.log(response.json())
     } catch (err) {
-        console.log(`DEU RUIM AQUI: ${err}`)
+        console.log(`SOMETHING WENT WRONG: ${err}`)
     }
 }
 
-// CashOut
-const paymentOut = {
-    'method': 'PIXOUT',
-    'code': '123',
-    'customer_doc': `${custid}`,
-    'items': [
-        {
-            'description': 'Reward',
-            'amount': 250.0,
-            'quantity': 1,
-            'code': 'RWD1'
-        }
-    ]
-}
+// Pix Out
 
 async function createPaymentOut() {
+    const paymentOut = {
+        'method': 'PIXOUT',
+        'code': '123',
+        'customer_doc': `${custid}`,
+        'items': [
+            {
+                'description': 'Reward',
+                'amount': 250.0,
+                'quantity': 1,
+                'code': 'RWD1'
+            }
+        ]
+    }
+
     const response = await fetch('https://testnetapigateway.herokuapp.com/api/payment', {
         method: 'POST',
         headers: {
@@ -206,11 +219,14 @@ async function createPaymentOut() {
 }
 // ====== MAIN ====== //   
 
+// Uncomment the functions that You want to run
+
 // await createCustomer()
 // await getCustomer()
-// const txid = await createPayment()
-// await getPaymentInfo(txid)
-// await cashIn()
 
-const txoutid = await createPaymentOut()
+// const txid = await createPaymentIn()
+// await getPaymentInfo(txid)
+// await cashIn(txid)
+
+// const txoutid = await createPaymentOut()
 
