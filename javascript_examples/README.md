@@ -68,7 +68,7 @@ Example of the output:
 # Customer section
 ## Creating a new customer
 
-To create a new customer, you must run the createCustomer function in the[index.js](index.js) file. If the function runs properly, a new customer will be created. The function also returns the new customer’s data. To run this script, you must have your APIKEY.
+To create a new customer, you must run the createCustomer function in the [index.js](index.js) file. If the function runs properly, a new customer will be created. The function also returns the new customer’s data. To run this script, you must have your APIKEY.
 
 ```javascript
 async function createCustomer() {
@@ -456,12 +456,12 @@ send_data(file, hash);
 ```
 
 Example of the output:
-``` json
+``` terminal
 Sending data - Fri Jan 20 2023 18:20:13 GMT-0300 (Horário Padrão de Brasília)
 { status: "success", name: "Fulano de Tal" }
 ```
 
-```json
+```terminal
 Sending data - Fri Jan 20 2023 18:22:27 GMT-0300 (Horário Padrão de Brasília)
 { status: "fail" }
 ```
@@ -534,7 +534,7 @@ app.post('/webhook_endpoint', (request, response) => {
 
 Example of the output in server side if key is correct:
 
-```json
+```terminal
 listening at 8080
 I got a request! - Fri Jan 20 2023 18:20:13 GMT-0300 (Horário Padrão de Brasília)
 API KEY CORRECT
