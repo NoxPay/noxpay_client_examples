@@ -4,7 +4,6 @@
 
 * [Introduction](#introduction)
 * [Getting an APIKEY and a merchant registration](#getting-an-apikey-and-a-merchant-registration)
-* [Setting the URL](#setting-the-url)
 * [Checking APIKEY](#checking-apikey)
 * [Getting account data](#getting-account-data)
 * [Customer section](#customer-section)
@@ -13,7 +12,7 @@
 * [Payments](#payments)
     * [Creating a new Payment - Cash In](#creating-a-new-payment---cash-in)
     * [Get Payment’s info](#get-payments-info)
-    * [Creating a new Payment - Cash Out](#creating-a-new-payment---cash-out)
+    * [Creating pix out](#creating-pix-out)
 * [Webhooks](#webhooks)
     * [Webhook Example](#webhook-example)
 
