@@ -106,7 +106,7 @@ async function updateCustomer() {
     const response = await fetch(`https://testnetapigateway.herokuapp.com/api/customer/${custid}`, options
     );
 
-    console.log(response)
+    // console.log(response)
     const data = await response.json();
     console.log(data);
 
@@ -233,15 +233,15 @@ async function createPaymentOut() {
 // ====== MAIN ====== //   
 
 // Uncomment the functions that You want to run
-await checkAPIKEY()
+// await checkAPIKEY()
 
-await getAccount()
+// await getAccount()
 
 // await createCustomer()
 // await getCustomer()
 
-// const txid = await createPaymentIn()
-// await getPaymentInfo(txid)
+const txid = await createPaymentIn()
+await getPaymentInfo(txid)
 // await cashIn(txid)
 
 // const txoutid = await createPaymentOut()
