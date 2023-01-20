@@ -19,6 +19,11 @@
 # Introduction
 The aim of this document is show how a developer can use the Nox gateway api in testnet. To use this system you must generate an API key and have an merchant registration. To access the main NoxPay API contact our team. This document is targeted towards Nox QA group.
 
+## DISCLAIMER
+To avoid problems with CORS policy, [NODE.js](https://nodejs.org/en/) was used in theses examples. The modules used can be found in [package.json](package.json) and can be installed with [npm](https://docs.npmjs.com/about-npm). You can run the codes with: 
+```
+node index.js
+```
 # Getting an APIKEY and a merchant registration
 To get an APIKEY and a merchant registration, you must get in contact with Nox, so we can provide them to you.
 
