@@ -9,7 +9,7 @@ import requests
 import uuid
 
 # Opening JSON file
-f = open('python_examples/config.json')
+f = open('config.json')
 
 # returns JSON object as a dictionary
 data = json.load(f)
@@ -39,18 +39,18 @@ print("Creating Customer")
 response = requests.post(f'{URL}/api/customer',
                          headers=headers, json=data)
 
-print(response)
-print(response.headers)
+# print(response)
+# print(response.headers)
 print(response.text)
 
-print("Get Customer")
+print("\nGet Customer")
 headers = {
     'api-key': '12345678',
 }
 response = requests.get(f'{URL}/api/customer/{custid}', headers=headers)
 print(response.text)
 
-print("Creating payment")
+print("\nCreating payment")
 
 payment = {
     'method': 'PIX',

@@ -49,3 +49,5 @@ headers = {
 # Sending Webhook
 response = requests.post(
     'http://localhost:8080/webhook_endpoint', headers=headers, data=data)
+
+print(response)

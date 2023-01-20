@@ -1,0 +1,5 @@
+the_weather_here
+node_modules
+package-lock.json
+.DS_Store
+simpleSign.js

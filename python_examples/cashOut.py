@@ -9,7 +9,7 @@ import requests
 import uuid
 
 # Opening JSON file
-f = open('python_examples/config.json')
+f = open('config.json')
 
 # returns JSON object as a dictionary
 data = json.load(f)
@@ -59,13 +59,13 @@ payment = {
     'items': [
         {
             'description': 'BTC',
-            'amount': 150000.0,
+            'amount': 100.0,
             'quantity': 1.02,
             'code': 'cBTC'
         },
         {
             'description': 'ADA',
-            'amount': 100.0,
+            'amount': 200.0,
             'quantity': 10000.02,
             'code': 'cADA'
         }
@@ -125,32 +125,27 @@ response = requests.post(f'{URL}/api/payment',
                          headers=headers, json=paymentout)
 
 print(response.text)
-# print(f'Id da fatura: {response.json()["txid"]}')
-# txid = response.json()["txid"]
+print(f'Invoice Id: {response.json()["txid"]}')
+txoutid = response.json()["txid"]
+# txoutid = "2ed3f4d5-3365-47b6-bf24-83ee380a77c6"
 
-# # Verifica saldo na conta
-# print('Saldo na conta:')
-# response = requests.get(f'{URL}/api/account', headers=headers)
-# print(response.text)
+# Check account balance
+print('\nAccount balance:')
+response = requests.get(f'{URL}/api/account', headers=headers)
+print(response.text)
 
-# # Verifica status da fatura a ser paga
-# print('Status da fatura:')
-# response = requests.get(f'{URL}/api/payment/{txid}', headers=headers)
-# print(response.text)
+# Check the status of the invoice to be paid
+print('\nInvoice status:')
+response = requests.get(f'{URL}/api/payment/{txoutid}', headers=headers)
+print(response.text)
 
 # # Realiza o pagamento (está dando 404 page not found)
-# print('Recebe pagamento:')
-# response = requests.post(f'{URL}/api/payment/pay/{txid}', headers=headers)
-# print(response.text)
+# Make the payment
+print('\n========> Paying')
+response = requests.post(f'{URL}/api/payment/pay/{txoutid}', headers=headers)
+print(response.text)
 
-# # Verifica status da fatura a ser paga (essa etapa é redundante quando
-# # a fatura é paga pois o status deve aparecer automaticamente)
-
-# print('Status da fatura:')
-# response = requests.get(f'{URL}/api/payment/{txid}', headers=headers)
-# print(response.text)
-
-# # Verifica saldo na conta
-# print('Saldo na conta:')
-# response = requests.get(f'{URL}/api/account', headers=headers)
-# print(response.text)
+# Check account balance
+print('\nAccount balance:')
+response = requests.get(f'{URL}/api/account', headers=headers)
+print(response.text)
